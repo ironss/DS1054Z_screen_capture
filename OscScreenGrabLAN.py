@@ -57,7 +57,7 @@ log_running_python_versions()
 # Update the next lines for your own default settings:
 path_to_save = "captures/"
 save_format = "PNG"
-IP_DS1104Z = "192.168.1.3"
+IP_scope = "192.168.1.3"
 
 # Rigol/LXI specific constants
 port = 5555
@@ -109,24 +109,24 @@ file_format = sys.argv[1].lower()
 
 # Read IP
 if len(sys.argv) > 1:
-    IP_DS1104Z = sys.argv[2]
+    IP_scope = sys.argv[2]
 
 # Check network response (ping)
 if platform.system() == "Windows":
-    response = os.system("ping -n 1 " + IP_DS1104Z + " > nul")
+    response = os.system("ping -n 1 " + IP_scope + " > nul")
 else:
-    response = os.system("ping -c 1 " + IP_DS1104Z + " > /dev/null")
+    response = os.system("ping -c 1 " + IP_scope + " > /dev/null")
 
 if response != 0:
     print
-    print "WARNING! No response pinging " + IP_DS1104Z
+    print "WARNING! No response pinging " + IP_scope
     print "Check network cables and settings."
     print "You should be able to ping the oscilloscope."
 
 # Open a modified telnet session
 # The default telnetlib drops 0x00 characters,
 #   so a modified library 'telnetlib_receive_all' is used instead
-tn = Telnet(IP_DS1104Z, port)
+tn = Telnet(IP_scope, port)
 instrument_id = command(tn, "*IDN?")    # ask for instrument ID
 
 # Check if instrument is set to accept LAN commands
@@ -142,13 +142,13 @@ if (id_fields[company] != "RIGOL TECHNOLOGIES") or \
         (((id_fields[model][:3] != "DS1") or (id_fields[model][-1] != "Z")) and \
          ((id_fields[model][:4] != "MSO1") or (id_fields[model][-1] != "Z"))):
     print "Found instrument model", "'" + id_fields[model] + "'", "from", "'" + id_fields[company] + "'"
-    print "WARNING: No oscilloscope from Rigol series DS1000Z or MSO1000 Zfound at", IP_DS1104Z
+    print "WARNING: No oscilloscope from Rigol series DS1000Z or MSO1000 Zfound at", IP_scope
     print
     typed = raw_input("ARE YOU SURE YOU WANT TO CONTINUE? (No/Yes):")
     if typed != 'Yes':
         sys.exit('Nothing done. Bye!')
 
-print "IP: {}".format(IP_DS1104Z)
+print "IP: {}".format(IP_scope)
 print "Instrument ID: {}".format(instrument_id)
 
 # Prepare filename as C:\MODEL_SERIAL_YYYY-MM-DD_HH.MM.SS
