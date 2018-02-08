@@ -139,9 +139,10 @@ if instrument_id == "command error":
 # Check if instrument is indeed a Rigol DS1000Z series
 id_fields = instrument_id.split(",")
 if (id_fields[company] != "RIGOL TECHNOLOGIES") or \
-        (id_fields[model][:3] != "DS1") or (id_fields[model][-1] != "Z"):
+        (((id_fields[model][:3] != "DS1") or (id_fields[model][-1] != "Z")) and \
+         ((id_fields[model][:4] != "MSO1") or (id_fields[model][-1] != "Z"))):
     print "Found instrument model", "'" + id_fields[model] + "'", "from", "'" + id_fields[company] + "'"
-    print "WARNING: No Rigol from series DS1000Z found at", IP_DS1104Z
+    print "WARNING: No oscilloscope from Rigol series DS1000Z or MSO1000 Zfound at", IP_DS1104Z
     print
     typed = raw_input("ARE YOU SURE YOU WANT TO CONTINUE? (No/Yes):")
     if typed != 'Yes':
