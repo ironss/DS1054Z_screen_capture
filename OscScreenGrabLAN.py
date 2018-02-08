@@ -86,7 +86,7 @@ def print_help():
     print "    " + "python " + script_name + " bmp 192.168.1.3 my_place_for_captures"
     print
     print "This program captures either the waveform or the whole screen"
-    print "    of a Rigol DS1000Z series oscilloscope, then save it on the computer"
+    print "    of a Rigol DS1000Z or MSO1000 series oscilloscope, then save it on the computer"
     print "    as a CSV, PNG or BMP file with a timestamp in the file name."
     print
     print "    The program is using LXI protocol, so the computer"
@@ -148,8 +148,8 @@ if (id_fields[company] != "RIGOL TECHNOLOGIES") or \
     if typed != 'Yes':
         sys.exit('Nothing done. Bye!')
 
-print "Instrument ID:",
-print instrument_id
+print "IP: {}".format(IP_DS1104Z)
+print "Instrument ID: {}".format(instrument_id)
 
 # Prepare filename as C:\MODEL_SERIAL_YYYY-MM-DD_HH.MM.SS
 timestamp = time.strftime("%Y-%m-%d_%H.%M.%S", time.localtime())
